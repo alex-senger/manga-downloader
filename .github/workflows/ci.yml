@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Reusable setup for Python + uv
+  setup-env:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-uv.outputs.cache-hit }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Cache uv environment
+        id: cache-uv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: uv-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
+
+      - name: Install dependencies
+        run: uv sync
+
+  lint:
+    name: Lint with Ruff
+    runs-on: ubuntu-latest
+    needs: setup-env
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Restore uv cache
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: uv-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
+
+      - name: Run Ruff check
+        run: uv run ruff check --output-format=github .
+
+      - name: Lint summary
+        run: |
+          echo "## Ruff Lint Report" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Ruff completed. See annotations above for any issues." >> $GITHUB_STEP_SUMMARY
+
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: setup-env
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Restore uv cache
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: uv-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
+
+      - name: Run pytest with coverage
+        run: uv run pytest --cov=src --cov-report=xml --cov-report=term-missing
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: ${{ github.ref == 'refs/heads/main' }}
+          verbose: true
+
+      - name: Test summary
+        run: |
+          echo "## Pytest Report" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Tests executed for Python ${{ matrix.python-version }}." >> $GITHUB_STEP_SUMMARY
+          echo "Coverage uploaded to Codecov." >> $GITHUB_STEP_SUMMARY
+
+  typecheck:
+    name: Type Check with Pyright
+    runs-on: ubuntu-latest
+    needs: setup-env
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Restore uv cache
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: uv-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
+
+      - name: Run Pyright
+        run: uv run pyright
+
+      - name: Typecheck summary
+        run: |
+          echo "## Pyright Type Check" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Pyright completed. See annotations above for any errors." >> $GITHUB_STEP_SUMMARY
