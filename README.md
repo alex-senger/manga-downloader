@@ -73,13 +73,11 @@ uv sync --dev
 This project uses:
 - **Ruff**: For linting and formatting
 - **Pyright**: For type checking  
-- **Pytest**: For testing
 
 Run quality checks:
 ```bash
 uv run ruff check
 uv run pyright
-uv run pytest
 ```
 
 ## 🤝 Contributing
