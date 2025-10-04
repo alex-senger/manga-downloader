@@ -81,21 +81,13 @@ jobs:
           path: .venv
           key: uv-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
 
-      - name: Run pytest with coverage
-        run: uv run pytest --cov=src --cov-report=xml --cov-report=term-missing
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          file: ./coverage.xml
-          fail_ci_if_error: ${{ github.ref == 'refs/heads/main' }}
-          verbose: true
+      - name: Run pytest
+        run: uv run pytest -v
 
       - name: Test summary
         run: |
           echo "## Pytest Report" >> $GITHUB_STEP_SUMMARY
           echo "✅ Tests executed for Python ${{ matrix.python-version }}." >> $GITHUB_STEP_SUMMARY
-          echo "Coverage uploaded to Codecov." >> $GITHUB_STEP_SUMMARY
 
   typecheck:
     name: Type Check with Pyright
