@@ -26,7 +26,7 @@ manga-downloader https://fanfox.net/manga/slam_dunk/v01/c001/1.html
 
 Download an entire series:
 ```bash
-manga-downloader https://fanfox.net/manga/slam_dunk/
+manga-downloader https://fanfox.net/manga/slam_dunk
 ```
 
 ### Advanced Usage
