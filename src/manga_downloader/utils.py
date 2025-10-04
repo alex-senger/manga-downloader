@@ -5,15 +5,18 @@ import re
 import shutil
 import threading
 import time
+import warnings
 from pathlib import Path
 
 import cloudscraper
 import img2pdf
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 from loguru import logger
 from requests.sessions import RequestsCookieJar
 from tqdm import tqdm
+
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 DEFAULT_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
