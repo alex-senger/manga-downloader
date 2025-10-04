@@ -1,0 +1,73 @@
+[project]
+name = "manga-downloader"
+version = "0.1.0"
+description = "A CLI tool to download manga from websites and convert them to PDF"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {text = "MIT"}
+authors = [
+    {name = "Alex Senger"}
+]
+keywords = ["manga", "downloader", "pdf", "scraper", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Internet :: WWW/HTTP",
+]
+
+dependencies = [
+    "requests>=2.32.5",
+    "beautifulsoup4>=4.14.2",
+    "pillow>=11.3.0",
+    "cloudscraper>=1.2.71",
+    "jsbeautifier>=1.15.4",
+    "img2pdf>=0.6.1",
+    "tqdm>=4.67.1",
+    "loguru>=0.7.3",
+]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.406",
+    "ruff>=0.13.3",
+]
+
+[tool.ruff.lint]
+select = ['ALL']
+ignore = ['COM812', 'E501', 'BLE001', 'FBT', 'PLR0913', 'C901', 'TRY', 'PLR', 'D401', 'D203', 'D213']
+
+# Pyright configuration
+[tool.pyright]
+include = ["src"]
+exclude = ["**/__pycache__"]
+pythonVersion = "3.12"
+pythonPlatform = "All"
+typeCheckingMode = "standard"
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportUnusedImports = true
+reportUnusedVariables = true
+reportDuplicateImports = true
+reportOptionalMemberAccess = false
+reportOptionalSubscript = false
+reportPrivateImportUsage = false
+venvPath = "."
+venv = ".venv"
+
+[project.scripts]
+manga-downloader = "manga_downloader.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/alex-senger/manga-downloader"
+Repository = "https://github.com/alex-senger/manga-downloader"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/manga_downloader"]
