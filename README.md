@@ -33,12 +33,12 @@ manga-downloader https://fanfox.net/manga/slam_dunk
 
 Download specific chapter range:
 ```bash
-manga-downloader https://fanfox.net/manga/slam_dunk/ --chapters 1-10
+manga-downloader https://fanfox.net/manga/slam_dunk --chapters 1-10
 ```
 
 Download with custom directory and keep images:
 ```bash
-manga-downloader https://fanfox.net/manga/slam_dunk/ \
+manga-downloader https://fanfox.net/manga/slam_dunk \
   --download-dir ./my-manga \
   --keep-images \
   --verbose
@@ -46,7 +46,7 @@ manga-downloader https://fanfox.net/manga/slam_dunk/ \
 
 Download in ascending order (oldest first):
 ```bash
-manga-downloader https://fanfox.net/manga/slam_dunk/ --sort asc
+manga-downloader https://fanfox.net/manga/slam_dunk --sort asc
 ```
 
 ## 🔧 Configuration
