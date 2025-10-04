@@ -57,15 +57,12 @@ def main() -> None:
 def init_parser() -> argparse.ArgumentParser:
     """Initialize the argument parser."""
     parser = argparse.ArgumentParser(
-        description="Download manga from websites and convert them to PDF/CBZ",
+        description="Download manga from websites and convert them to PDF",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   # Download single chapter as PDF
   manga-downloader https://fanfox.net/manga/example/v01/c001/1.html
-
-  # Download entire series as CBZ files
-  manga-downloader https://fanfox.net/manga/example/ --format cbz
 
   # Download specific chapter range
   manga-downloader https://fanfox.net/manga/example/ --chapters 1-10
@@ -99,9 +96,9 @@ Examples:
         "-f",
         "--format",
         type=str,
-        choices=["pdf", "cbz", "none"],
+        choices=["pdf", "none"],
         default="pdf",
-        help="Output format: pdf, cbz, or none (default: pdf)",
+        help="Output format: pdf or none (default: pdf)",
     )
 
     parser.add_argument(
@@ -124,7 +121,7 @@ Examples:
     parser.add_argument(
         "--keep-images",
         action="store_true",
-        help="Keep downloaded images after creating PDF/CBZ",
+        help="Keep downloaded images after creating PDF",
     )
 
     parser.add_argument(

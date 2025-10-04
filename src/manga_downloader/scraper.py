@@ -37,7 +37,7 @@ class MangaScraper:
             url: Manga or chapter URL
             download_dir: Directory to save downloads
             chapter_range: Range of chapters to download (e.g., "1-10", "10-All" or "All")
-            conversion: Output format ("pdf", "cbz", or "none")
+            conversion: Output format ("pdf", or "none")
             keep_files: Whether to keep individual image files after conversion
             sorting: Order to download chapters ("asc" or "desc")
 

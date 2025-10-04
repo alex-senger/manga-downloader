@@ -186,11 +186,11 @@ def conversion(
     manga_name: str,
     chapter_number: str,
 ) -> bool:
-    """Convert downloaded images to specified format (PDF or CBZ).
+    """Convert downloaded images to PDF.
 
     Args:
         directory_path: Path to directory containing images
-        conversion: Conversion format ("pdf", "cbz", or "none")
+        conversion: Conversion format ("pdf" or "none")
         keep_files: Whether to keep original image files
         manga_name: Name of the comic/manga
         chapter_number: Chapter number
