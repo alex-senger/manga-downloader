@@ -42,9 +42,9 @@ class MangaScraper:
             sorting: Order to download chapters ("asc" or "desc")
 
         """
-        parsed_url = urlparse(url)
-        if "fanfox.net" not in parsed_url.netloc:
+        if re.match(r".*fanfox\.net.*", url) is None:
             logger.error("This scraper only supports fanfox.net URLs.")
+            return
 
         if re.match(r".*/v\d+/c\d+/\d+\.html$", url):
             # https://fanfox.net/manga/slam_dunk/v01/c001/1.html
